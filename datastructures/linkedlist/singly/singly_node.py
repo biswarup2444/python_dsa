@@ -55,17 +55,17 @@ class LinkedList:
             prev = h
             h = nxt
         return prev
-    def remove_without_head_brute_force(self,h):
-        tr=h
-        while(tr.next is not None):
 
-            tr.data=tr.next.data
-            tr=tr.next
-        while(h.next!=tr):
-            h=h.next
-        h.next=None
+    def remove_without_head_brute_force(self, h):
+        tr = h
+        while (tr.next is not None):
+            tr.data = tr.next.data
+            tr = tr.next
+        while (h.next != tr):
+            h = h.next
+        h.next = None
 
-    def delete_without_head_simple(self,h):
+    def delete_without_head_simple(self, h):
         if h is None or h.next is None:
             return None
         x = h.next.next
@@ -73,14 +73,39 @@ class LinkedList:
         h.next = x
 
 
+def remove_loop(h):
+    slow = h
+    fast = h
+    tr = h
+
+    while fast.next is not None:
+
+        fast = fast.next
+        if fast is None:
+            break
+        fast = fast.next
+        slow = slow.next
+        if fast == slow:
+            break
+
+    while slow.next != tr.next:
+        tr = tr.next
+        slow = slow.next
+
+    slow.next = None
+    return h
 
 
 if __name__ == '__main__':
     ll = LinkedList();
-    n = SinglyNode(1)
+    a=SinglyNode(1)
+    n = SinglyNode(5)
     n.next = SinglyNode(2)
-    n.next.next = SinglyNode(3)
+    n.next.next = a
     n.next.next.next = SinglyNode(4)
-    n.next.next.next.next = SinglyNode(5)
-    ll.delete_without_head_simple(n.next.next)
+    n.next.next.next.next = a
+    #
+
+    n = remove_loop(n)
     ll.print_all(n)
+
