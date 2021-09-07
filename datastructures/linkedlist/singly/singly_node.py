@@ -96,16 +96,4 @@ def remove_loop(h):
     return h
 
 
-if __name__ == '__main__':
-    ll = LinkedList();
-    a=SinglyNode(1)
-    n = SinglyNode(5)
-    n.next = SinglyNode(2)
-    n.next.next = a
-    n.next.next.next = SinglyNode(4)
-    n.next.next.next.next = a
-    #
-
-    n = remove_loop(n)
-    ll.print_all(n)
 
