@@ -1,4 +1,4 @@
-from Sorting import *
+from linkedlist.singly.sinlgy_node import *
 def kadnes_algorithim(ar):
     local_max = -100000
     global_max = ar[0]
