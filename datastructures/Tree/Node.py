@@ -3,7 +3,8 @@ class TreeNode:
         self.data = data
         self.right = None
         self.left = None
-
+    def __str__(self):
+        return self.data
 
 class BinaryTree:
     def insert_left(self, n, data):

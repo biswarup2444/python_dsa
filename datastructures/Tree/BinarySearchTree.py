@@ -3,7 +3,6 @@ from Node import *
 
 
 class BinarySearchTree:
-
     def insert(self, tn, data):
         if tn is None:
             tn = TreeNode(data)
@@ -74,14 +73,16 @@ class BinarySearchTree:
 
     def binary_search_tree_level_order_traversal(self, tn):
         q = Queue()
+        a = []
         q.enqueue(tn)
         while not q.is_empty():
-            print(q.peek().data, end=" ")
+            a.append(q.peek().data)
             if q.peek().left is not None:
                 q.enqueue(q.peek().left)
             if q.peek().right is not None:
                 q.enqueue(q.peek().right)
             q.dequeue()
+        return a
 
     def binary_search_tree_pre_order_traversal(self, tn):
         if tn is None:
@@ -158,15 +159,123 @@ class BinarySearchTree:
             else:
                 break
         return a
+    def binary_search_tree_pre_order_traversal_iterative(self, tn) -> list:
+        st = list() #empty stack1
+        res = list()
+        st.append(tn)
+        while True:
+            v = st.pop()
+            res.append(v.data)
+            if v.right is not None:
+                st.append(v.right)
+            if v.left is not None:
+                st.append(v.left)
+            if len(st) == 0:
+                break
+        return res
+    def binary_search_tree_post_order_traversal_iterative(self, tn) -> list:
+        st = list() #empty stack1
+        res = list()
+        st.append(tn)
+        while True:
+            v = st.pop()
+            res.append(v.data)
+            if v.right is not None:
+                st.append(v.left)
+            if v.left is not None:
+                st.append(v.right)
+            if len(st) == 0:
+                break
+        return res[::-1]
+    def binary_search_tree_level_order_traversal(self, tn):
+        q = Queue()
+        a = []
+        q.enqueue(tn)
+        while not q.is_empty():
+            r = []
+            v = False
+            q2 = Queue()
+            while not q.is_empty():
+                r.append(q.peek().data)
+                if q.peek().left is not None:
+                    q2.enqueue(q.peek().left)
+                    v = True
+                else:
+                    q2.enqueue(TreeNode('n'))
+                if q.peek().right is not None:
+                    q2.enqueue(q.peek().right)
+                    v = True
+                else:
+                    q2.enqueue(TreeNode('n'))
 
+                q.dequeue()
+            if not v:
+                break
+            q = q2
+            a.append(r)
+        a.append(r)
+        return a
+    def find_successor(self,root,val):
+        if root is None:
+            return None
+        if root.left is not None and root.data > val:
+            v = self.find_successor(root.left, val)
+            if (v == -1 or v is None) and root.data > val:
+                v = root.data
+            return v
+        if root.right is not None and root.data < val:
+            v = self.find_successor(root.right, val)
+            if (v == -1 or v is None) and root.data > val:
+                v = root.data
+            return v
+        if root.data == val:
+            if root.right is not None:
+                return self.min_element_in_bst_recursion(root.right)
+            return -1
+
+    def find_predecessor(self, root, val):
+        if root is None:
+            return None
+        if root.left is not None and root.data > val:
+            v = self.find_predecessor(root.left, val)
+            if (v == -1 or v is None) and root.data < val:
+                v = root.data
+            return v
+        if root.right is not None and root.data < val:
+            v = self.find_predecessor(root.right, val)
+            if (v == -1 or v is None) and root.data < val:
+                v = root.data
+            return v
+        if root.data == val:
+            if root.left is not None:
+                return self.max_element_in_bst(root.left)
+            return -1
+    def delete_node(self,root,value):
+        if root.data == value :
+            if root.left is None and root.right is None:
+                return None
+            elif root.left is None or root.right is None:
+                if root.left is None:
+                    return root.right
+                elif root.right is None:
+                    return root.left
+        if root.left is not None and root.data > value:
+            root.left = self.delete_node(root.left,value)
+        if root.right is not None and root.data < value:
+            root.right = self.delete_node(root.right, value)
 if __name__ == '__main__':
-    a = TreeNode(3)
+    a = TreeNode(4)
     bst = BinarySearchTree()
-    a = bst.insert(a, 1)
-    a = bst.insert(a, 5)
+    #a = bst.insert(a, 1)
+    #a = bst.insert(a, 0)
+    #a = bst.insert(a, -1)
     a = bst.insert(a, 2)
-    a = bst.insert(a, 0)
-    a = bst.insert(a, 4)
+    a = bst.insert(a, 5)
     a = bst.insert(a, 6)
-    bst.binary_search_tree_in_order_traversal(a)
-    print(bst.inorder_stack(a))
+    a = bst.insert(a, 7)
+    print(bst.search(a, 6))
+    print(bst.search(a, 7))
+    bst.delete_node(a,6)
+    bst.search(a,6)
+    print(bst.search(a, 7))
+    #print(bst.min_element_in_bst_recursion(a.right))
