@@ -122,7 +122,7 @@ class BinarySearchTree:
             return True
         return n.data > data and self.is_less(n.left, n.data) and self.is_greater(n.right, n.data)
 
-    def delete_node(self,n ,data):
+    def delete_node(self, n, data):
         if n is None:
             return n
         if data > n.data:
@@ -144,7 +144,8 @@ class BinarySearchTree:
                 n.data = d.data
                 n.right = self.delete_node(n.right, d.data)
             return n
-    def inorder_stack(self,n):
+
+    def inorder_stack(self, n):
         q = []
         cr = n
         a = []
@@ -159,8 +160,9 @@ class BinarySearchTree:
             else:
                 break
         return a
+
     def binary_search_tree_pre_order_traversal_iterative(self, tn) -> list:
-        st = list() #empty stack1
+        st = list()  # empty stack1
         res = list()
         st.append(tn)
         while True:
@@ -173,8 +175,9 @@ class BinarySearchTree:
             if len(st) == 0:
                 break
         return res
+
     def binary_search_tree_post_order_traversal_iterative(self, tn) -> list:
-        st = list() #empty stack1
+        st = list()  # empty stack1
         res = list()
         st.append(tn)
         while True:
@@ -187,6 +190,7 @@ class BinarySearchTree:
             if len(st) == 0:
                 break
         return res[::-1]
+
     def binary_search_tree_level_order_traversal(self, tn):
         q = Queue()
         a = []
@@ -215,7 +219,8 @@ class BinarySearchTree:
             a.append(r)
         a.append(r)
         return a
-    def find_successor(self,root,val):
+
+    def find_successor(self, root, val):
         if root is None:
             return None
         if root.left is not None and root.data > val:
@@ -250,8 +255,9 @@ class BinarySearchTree:
             if root.left is not None:
                 return self.max_element_in_bst(root.left)
             return -1
-    def delete_node(self,root,value):
-        if root.data == value :
+
+    def delete_node(self, root, value):
+        if root.data == value:
             if root.left is None and root.right is None:
                 return None
             elif root.left is None or root.right is None:
@@ -259,23 +265,28 @@ class BinarySearchTree:
                     return root.right
                 elif root.right is None:
                     return root.left
+            else:
+                s = self.find_successor(root, value)
+                self.delete_node(root, s)
+                root.data = s
+                return root
         if root.left is not None and root.data > value:
-            root.left = self.delete_node(root.left,value)
+
+            root.left = self.delete_node(root.left, value)
+            return root
         if root.right is not None and root.data < value:
+
             root.right = self.delete_node(root.right, value)
+            return root
+
+
 if __name__ == '__main__':
-    a = TreeNode(4)
     bst = BinarySearchTree()
-    #a = bst.insert(a, 1)
-    #a = bst.insert(a, 0)
-    #a = bst.insert(a, -1)
-    a = bst.insert(a, 2)
-    a = bst.insert(a, 5)
-    a = bst.insert(a, 6)
-    a = bst.insert(a, 7)
-    print(bst.search(a, 6))
-    print(bst.search(a, 7))
-    bst.delete_node(a,6)
-    bst.search(a,6)
-    print(bst.search(a, 7))
-    #print(bst.min_element_in_bst_recursion(a.right))
+    a = TreeNode(8)
+    a = bst.insert(a, 3)
+    a = bst.insert(a, 10)
+    a = bst.insert(a, 1)
+    a = bst.insert(a, 4)
+    a = bst.insert(a, 9)
+    a = bst.insert(a, 11)
+
