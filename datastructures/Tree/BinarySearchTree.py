@@ -258,35 +258,55 @@ class BinarySearchTree:
 
     def delete_node(self, root, value):
         if root.data == value:
+
             if root.left is None and root.right is None:
+
                 return None
             elif root.left is None or root.right is None:
                 if root.left is None:
                     return root.right
                 elif root.right is None:
+
                     return root.left
             else:
                 s = self.find_successor(root, value)
                 self.delete_node(root, s)
                 root.data = s
+                root.set_smallest()
                 return root
         if root.left is not None and root.data > value:
 
             root.left = self.delete_node(root.left, value)
+
+            root.set_smallest()
             return root
         if root.right is not None and root.data < value:
-
             root.right = self.delete_node(root.right, value)
+            root.set_smallest()
             return root
+
+    def insertion_augmented(self,root,value):
+        if root is None:
+            root = AugmentedTreeNode(value)
+        if root.data > value:
+            root.left = self.insertion_augmented(root.left,value)
+            root.set_smallest()
+        elif root.data < value:
+            root.right = self.insertion_augmented(root.right, value)
+            root.set_smallest()
+        return root
 
 
 if __name__ == '__main__':
     bst = BinarySearchTree()
-    a = TreeNode(8)
-    a = bst.insert(a, 3)
-    a = bst.insert(a, 10)
-    a = bst.insert(a, 1)
-    a = bst.insert(a, 4)
-    a = bst.insert(a, 9)
-    a = bst.insert(a, 11)
+    a = AugmentedTreeNode(8)
+    a = bst.insertion_augmented(a, 3)
+    a = bst.insertion_augmented(a, 10)
+    a = bst.insertion_augmented(a, 1)
+    a = bst.insertion_augmented(a, 4)
+    bst.delete_node(a, 8)
+    bst.delete_node(a, 1)
+
+
+
 
